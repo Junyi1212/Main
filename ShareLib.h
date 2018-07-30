@@ -3,5 +3,7 @@
 #include <stdio.h>
 #include <dlfcn.h>
 
+typedef int (*CalculatorFuncPointer)(int, int);
+
 int ShareLib(void);
 #endif

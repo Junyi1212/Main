@@ -1,8 +1,8 @@
-objects = Main.o SyncAdd.o CPlusPlus.o ShareLib.o
+objects = Main.o SyncAdd.o CPlusPlus.o ShareLib.o Exception.o Signal.o
 
 Mytest:$(objects)
 	make -C lib/
-	g++ -o Mytest $(objects) -lpthread -rdynamic -ldl
+	g++ -o Mytest $(objects) -lpthread -rdynamic -ldl -lrt
 
 Main.o:Main.c
 	g++ -c Main.c
@@ -16,6 +16,12 @@ CPlusPlus.o:CPlusPlus.cpp CPlusPlus.h
 ShareLib.o:ShareLib.c
 	g++ -c ShareLib.c
 
+Exception.o:Exception.c
+	g++ -c Exception.c
+
+Signal.o:Signal.c
+	g++ -c Signal.c
+	
 .PHONY:clean
 clean:
 	-make clean -C lib/

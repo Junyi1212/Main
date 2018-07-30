@@ -1,7 +1,5 @@
 #include "ShareLib.h"
  
-typedef int (*CalculatorFuncPointer)(int, int);
- 
 int ShareLib(void) 
 {
 	const char *dlib_path = "/var/fpwork/lyun/test/lib/libCal.so";

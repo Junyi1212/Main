@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+//=====================Case7:Signal Timer================//
+#include "Signal.h"
+//=====================Case6:Exception===================//
+#include "Exception.h"
 //=====================Case5:ShareLib====================//
 #include "ShareLib.h"
 //=====================Case4:SyncAdd====================//
@@ -108,5 +113,18 @@ int main()
 
     //Case5
     ShareLib();
+
+    //Case6
+    //ExceptionInit();
+    //ExceptionStart();
+
+    //Case7
+    TimerTest1();
+    TimerTest2();
+
+    while(1)
+    {
+    	sleep(5);
+    }
     return 0;
 }
