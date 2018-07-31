@@ -12,7 +12,34 @@
 #define EXCEPTION_MAX_BACKTRACE_SIZE 100
 
 static ucontext_t *ucont = 0;
+//=========================================================//
+/*
+Method1: 自定义backtrace
+可以把Mytest和libCal.so 的crash地址都打出来
 
+例如:
+Calltrace:
+#0 0x00000000
+#1 0x0040276a in _Z13ExceptionDealPKc+0x15f from ./Mytest+0x276a
+#2 0x00402be6 from ./Mytest+0x2be6
+#3 0x00402df4 from ./Mytest+0x2df4
+#4 0x3117a0f7e0 from /lib64/libpthread.so.0+0xf7e0
+#5 0x7fc7ef9ee6a1 in divide+0x12 from /var/fpwork/lyun/test/lib/libCal.so+0x6a1
+#6 0x00402f6a in _Z14ExceptionStartv+0x79 from ./Mytest+0x2f6a
+#7 0x00401f07 in main+0x12b from ./Mytest+0x1f07
+#8 0x311721ed1d in __libc_start_main+0xfd from /lib64/libc.so.6+0x1ed1d
+#9 0x004019d9 from ./Mytest+0x19d9
+
+使用addr2line
+> addr2line -e Mytest -a 0x0040276a
+0x000000000040276a
+/var/fpwork/lyun/test/Exception.c:103
+
+> addr2line -e ./lib/libCal.so -a 0x6a1
+0x00000000000006a1
+/var/fpwork/lyun/test/lib/libCal.c:20
+
+*/
 /* Second argument to trace.  */
 typedef struct backtrace_arg
 {
@@ -22,7 +49,7 @@ typedef struct backtrace_arg
 }backtrace_arg;
 
 /* Help function for backtrace.  */
-static _Unwind_Reason_Code trace(struct _Unwind_Context *context, void *arg)
+static _Unwind_Reason_Code self_trace(struct _Unwind_Context *context, void *arg)
 {
     backtrace_arg *bt_arg = (backtrace_arg *)arg;
 
@@ -43,14 +70,14 @@ static _Unwind_Reason_Code trace(struct _Unwind_Context *context, void *arg)
 /* Similar to glibc's backtrace.  Return the list of pc in BUFFER
    where BUFFER is allocated to contain at most SIZE number of
    pointers.  */
-int backtrace(void **buffer, int size)
+int self_backtrace(void **buffer, int size)
 {
     struct backtrace_arg bt_arg = { buffer, size, -1 };
-    _Unwind_Backtrace(trace, &bt_arg);
+    _Unwind_Backtrace(self_trace, &bt_arg);
     return bt_arg.frame_num;
 }
 
-static void ExceptionDeal(const char *const description)
+void ExceptionDeal_1(const char *const description)
 {
     printf("\nDescription    : %s\n", description);
     printf("Pid (OS)     : %u\n", getpid());
@@ -100,7 +127,7 @@ static void ExceptionDeal(const char *const description)
         }
     }
 
-    size = backtrace(array, EXCEPTION_MAX_BACKTRACE_SIZE);
+    size = self_backtrace(array, EXCEPTION_MAX_BACKTRACE_SIZE);
 
     for (i = 0; i < size; i++)
     {
@@ -133,6 +160,50 @@ static void ExceptionDeal(const char *const description)
         }
     }
     printf("%s: Out\n", __FUNCTION__);
+}
+
+//=========================================================//
+/*
+Method2: 原生系统函数backtrace
+只能可以把Mytest的crash地址都打出来
+libCal.so无法找到
+
+例如:
+Backtrace (9 deep):
+0: ./Mytest(_Z13ExceptionDealPKc+0x55) [0x402535]
+1: ./Mytest() [0x4028a9]
+2: ./Mytest() [0x402ab7]
+3: /lib64/libpthread.so.0() [0x3117a0f7e0]
+4: /var/fpwork/lyun/test/lib/libCal.so(divide+0x12) [0x7fe386fd16a1]
+5: ./Mytest(_Z14ExceptionStartv+0x79) [0x402c2d]
+6: ./Mytest(main+0x12b) [0x401eb7]
+7: /lib64/libc.so.6(__libc_start_main+0xfd) [0x311721ed1d]
+8: ./Mytest() [0x401989]
+
+使用addr2line
+> addr2line -e Mytest -a 0x402535
+0x0000000000402535
+/var/fpwork/lyun/test/Exception.c:147
+
+*/
+
+void ExceptionDeal_2(const char *const description)
+{
+#define SIZE 100
+	void *array[SIZE];
+	int size,i;
+	char **strings;
+
+	printf("\nDescription    : %s\n", description);
+	printf("Pid (OS)     : %u\n", getpid());
+	size = backtrace(array, SIZE);
+	printf("Backtrace (%d deep):\n", size);
+	strings = backtrace_symbols(array, size);
+	for(i=0; i<size;i++)
+	{
+		printf("%d: %s\n", i, strings[i]);
+	}
+	free(strings);
 }
 
 static void HandleInvalidAddress(const siginfo_t *const info,const ucontext_t *const uc)
@@ -179,7 +250,7 @@ static void HandleInvalidAddress(const siginfo_t *const info,const ucontext_t *c
              (void *)uc->uc_mcontext.gregs[REG_RIP]);
 #endif
 
-    ExceptionDeal(infoText);
+    ExceptionDeal_1(infoText);
 }
 
 static void HandleInvalidInstruction(const siginfo_t *const info, const ucontext_t *const uc)
@@ -249,7 +320,7 @@ static void HandleInvalidInstruction(const siginfo_t *const info, const ucontext
              (void *)uc->uc_mcontext.gregs[REG_RIP]);
 #endif
 
-    ExceptionDeal(infoText);
+    ExceptionDeal_1(infoText);
 }
 
 static void HandleFloatingPointError(const siginfo_t *const info, const ucontext_t *const uc)
@@ -291,7 +362,7 @@ static void HandleFloatingPointError(const siginfo_t *const info, const ucontext
              (void *)uc->uc_mcontext.gregs[REG_RIP]);
 #endif
 
-    ExceptionDeal(infoText);
+    ExceptionDeal_1(infoText);
 }
 
 static void HandleBusError(const siginfo_t *const info, const ucontext_t *const uc)
@@ -333,7 +404,7 @@ static void HandleBusError(const siginfo_t *const info, const ucontext_t *const 
              (void *)uc->uc_mcontext.gregs[REG_RIP]);
 #endif
 
-    ExceptionDeal(infoText);
+    ExceptionDeal_1(infoText);
 }
 
 static void HandleAbort(const siginfo_t *const info, const ucontext_t *const uc)
@@ -359,7 +430,7 @@ static void HandleAbort(const siginfo_t *const info, const ucontext_t *const uc)
              (void *)uc->uc_mcontext.gregs[REG_RIP]);
 #endif
 
-    ExceptionDeal(infoText);
+    ExceptionDeal_1(infoText);
 }
 
 static void SelfSigHandler(int        signo,
@@ -392,7 +463,7 @@ static void SelfSigHandler(int        signo,
             break;
 
         default:
-            ExceptionDeal("Unknown POSIX signal");
+            ExceptionDeal_1("Unknown POSIX signal");
             break;
     }
 

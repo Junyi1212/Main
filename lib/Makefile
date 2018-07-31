@@ -1,5 +1,5 @@
 Lib:libCal.c
-	gcc -fPIC -shared libCal.c -o libCal.so
+	gcc -fPIC -shared -g -O0 libCal.c -o libCal.so
 
 .PHONY:clean
 clean:
