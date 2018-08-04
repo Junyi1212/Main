@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//=====================Case8:Affinity===================//
+#include "Affinity.h"
 //=====================Case7:Signal Timer================//
 #include "Signal.h"
 //=====================Case6:Exception===================//
@@ -81,50 +83,112 @@ static union
 } endian_test = {{'l', '?', '?', 'b'}};
 #define MY_ENDIANNESS ((char)(endian_test.l))
 //==================================================//
-
-int main()
+void printHelp(void)
 {
-    //Case1
-    bool isLittle = checkCPU();
-    printf("The CPU is %s\n", isLittle == true? "Little":"Big");
-    printf("The Linux kernel %c\n", MY_ENDIANNESS);
+	printf("\r\n");
+	printf("USAGE\r\n");
+	printf("    -1    Case1:Check the CPU is Little or Big.\r\n");
+	printf("    -2    Case2:The example of strtok() and strtok_r().\r\n");
+	printf("    -3    Case3:The example of C++ usage.\r\n");
+	printf("    -4    Case4:The correction and efficiency of atomic operation.\r\n");
+	printf("    -5    Case5:The example of shared lib usage.\r\n");
+	printf("    -6    Case6:The example of exception process.\r\n");
+	printf("    -7    Case7:The example of signal timer.\r\n");
+	printf("    -8    Case8:The example of cpu affinity.\r\n");
+	printf("\r\n");
+}
 
-    //Case2
-    strtok_test();
-    strtok_r_test();
+int main(int argc, char **argv)
+{
+	int c = 0;
+	if (argc == 1)
+	{
+		printHelp();
+		return -1;
+	}
 
-    //Case3
-    String str1 = String("111");
-    String str2 = String(str1);
-    String str3 = String("222");
-    String str4;
-    String str5 = String("333");
-    str4 = str3;
-    str5 = str5;
-    str1.StringPrint();
-    str2.StringPrint();
-    str3.StringPrint();
-    str4.StringPrint();
-    str5.StringPrint();
+	while ((c = getopt(argc, argv, "123456789a")) != -1)
+	{
+		switch (c)
+		{
+			case '1':
+			{
+				//Case1
+				bool isLittle = checkCPU();
+				printf("The CPU is %s\n", isLittle == true? "Little":"Big");
+				printf("The Linux kernel %c\n", MY_ENDIANNESS);
+				break;
+			}
+			case '2':
+			{
+				//Case2
+				strtok_test();
+				strtok_r_test();
+				break;
+			}
+			case '3':
+			{
+				//Case3
+				String str1 = String("111");
+				String str2 = String(str1);
+				String str3 = String("222");
+				String str4;
+				String str5 = String("333");
+				str4 = str3;
+				str5 = str5;
+				str1.StringPrint();
+				str2.StringPrint();
+				str3.StringPrint();
+				str4.StringPrint();
+				str5.StringPrint();
+				break;
+			}
+			case '4':
+			{
+				//Case4
+				SyncCase1();
+				SyncCase2();
+				break;
+			}
+			case '5':
+			{
+				//Case5
+				ShareLib();
+				break;
+			}
+			case '6':
+			{
+				//Case6
+				ExceptionInit();
+				ExceptionStart();
+				break;
+			}
+			case '7':
+			{
+				//Case7
+				TimerTest1();
+				TimerTest2();
+				while(1);
+				break;
+			}
+			case '8':
+			{
+				//Case8
+				AffinityTest();
+				break;
+			}
+			case '9':
+			{
+				break;
+			}
+			case 'a':
+			{
+				break;	
+			}
+			default:
+			break;
+		}
+	}
 
-    //Case4
-    SyncCase1();
-    SyncCase2();
-
-    //Case5
-    ShareLib();
-
-    //Case6
-    //ExceptionInit();
-    //ExceptionStart();
-
-    //Case7
-    TimerTest1();
-    TimerTest2();
-
-    while(1)
-    {
-    	sleep(5);
-    }
-    return 0;
+	return 0;
 }

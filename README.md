@@ -6,3 +6,4 @@
 # Case5:ShareLib
 # Case6:Exception
 # Case7:Signal Timer
+# Case8:Affinity

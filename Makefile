@@ -1,6 +1,6 @@
 CC = g++
-OBJECTS = Main.o SyncAdd.o ShareLib.o Exception.o Signal.o CPlusPlus.o
-CFLAGS = -g -O0
+OBJECTS = Main.o SyncAdd.o ShareLib.o Exception.o Signal.o CPlusPlus.o Affinity.o
+CFLAGS = -g -O0 -Werror
 LDFLAGS = -lpthread -rdynamic -ldl -lrt
 
 Mytest:$(OBJECTS)
