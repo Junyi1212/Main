@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//=====================Case9:List===================//
+#include "ListExample.h"
 //=====================Case8:Affinity===================//
 #include "Affinity.h"
 //=====================Case7:Signal Timer================//
@@ -179,6 +181,8 @@ int main(int argc, char **argv)
 			}
 			case '9':
 			{
+				//Case9
+				ListTest1();
 				break;
 			}
 			case 'a':
