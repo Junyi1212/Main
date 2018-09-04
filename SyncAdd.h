@@ -5,6 +5,16 @@
 #include <pthread.h>
 #include <time.h>
 #include <sys/time.h> 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void SyncCase1(void);
 void SyncCase2(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

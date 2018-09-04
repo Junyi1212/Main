@@ -103,7 +103,7 @@ void ListTest1(void)
 	if (NULL == g_fileList)
 	{
 		printf("malloc fail\n");
-		return -1;
+		return;
 	}
 
 	g_fileList->fileInfo = NULL;
@@ -123,6 +123,5 @@ void ListTest1(void)
 	AllPrint();
 	sortList();
 	AllPrint();
-       return 0;
 }
 

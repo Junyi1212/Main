@@ -7,6 +7,15 @@
 #include <unistd.h>
 #include <time.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void TimerTest1(void);
 void TimerTest2(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

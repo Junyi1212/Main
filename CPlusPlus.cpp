@@ -1,5 +1,7 @@
 #include "CPlusPlus.h"
 
+//================================================
+//Case1:类的基本函数 
 String::String(const char *str)
 {
     printf("%s_1\n", __FUNCTION__);

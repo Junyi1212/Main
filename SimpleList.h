@@ -1,8 +1,8 @@
-#pragma once
-#ifndef _SIMPLELIST_H
-#define _SIMPLELIST_H
+#ifndef SIMPLELIST_H
+#define SIMPLELIST_H
 
-#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -90,10 +90,7 @@ typedef struct SListElement
 *   // In this example the head element is alone
 *   SimpleListInit(&head2);
 ******************************************************************************/
-SListElement* SimpleListInit(SListElement* element)
-{
-	return element->next = element->prev = element;
-} 
+SListElement* SimpleListInit(SListElement* element);
 
 
 /**
@@ -117,16 +114,7 @@ SListElement* SimpleListInit(SListElement* element)
 *   @see SimpleListAddAfter
 * 
 ******************************************************************************/
-SListElement* SimpleListInsert(SListElement* element, SListElement* prev, SListElement* next)
-{
-	next->prev = element;
-	prev->next = element;
-
-	element->next = next;
-	element->prev = prev;
-
-	return element;
-}
+SListElement* SimpleListInsert(SListElement* element, SListElement* prev, SListElement* next);
 
 
 /**
@@ -161,10 +149,7 @@ SListElement* SimpleListInsert(SListElement* element, SListElement* prev, SListE
 *   SimpleListAddAfter(&newE->list, &head->list) == &newE->list;
 *
 ******************************************************************************/
-SListElement* SimpleListAddAfter(SListElement* element, SListElement* head)
-{
-	return SimpleListInsert(element, head, head->next);
-} 
+SListElement* SimpleListAddAfter(SListElement* element, SListElement* head);
 
 /**
 *******************************************************************************
@@ -198,10 +183,7 @@ SListElement* SimpleListAddAfter(SListElement* element, SListElement* head)
 *   SimpleListAddBefore(&newE->list, &head->list);
 *
 ******************************************************************************/
-SListElement* SimpleListAddBefore(SListElement* element, SListElement* head)
-{
-	return SimpleListInsert(element, head->prev, head);
-}
+SListElement* SimpleListAddBefore(SListElement* element, SListElement* head);
 
 /**
 *******************************************************************************
@@ -267,19 +249,7 @@ SListElement* SimpleListAddBefore(SListElement* element, SListElement* head)
 *   }
 *
 ******************************************************************************/
-SListElement* SimpleListRemove(SListElement* const element)
-{
-	SListElement* next = element->next;
-	SListElement* prev = element->prev;
-
-	next->prev = prev;
-	prev->next = next;
-
-	element->next = NULL;
-	element->prev = NULL;
-
-	return element;
-}
+SListElement* SimpleListRemove(SListElement* const element);
 
 /**
 *******************************************************************************
@@ -322,10 +292,7 @@ SListElement* SimpleListRemove(SListElement* const element)
 *
 *
 ******************************************************************************/
-bool SimpleListEmpty(const SListElement* const head)
-{
-	return head == head->next;
-}
+bool SimpleListEmpty(const SListElement* const head);
 
 /**
 *******************************************************************************
@@ -362,17 +329,7 @@ bool SimpleListEmpty(const SListElement* const head)
 *   size = SimpleListSize(&head);
 *
 ******************************************************************************/
-size_t SimpleListSize(SListElement* head)
-{
-	size_t size = 0;
-	SListElement* e = head->next;
-
-	for (; e != head; ++size, e = e->next)
-	{
-	}
-
-	return size;
-}
+size_t SimpleListSize(SListElement* head);
 
 
 /**
@@ -413,16 +370,7 @@ size_t SimpleListSize(SListElement* head)
 * 
 * 
 ******************************************************************************/
-SListElement* SimpleListMoveBefore(SListElement* element, SListElement* head)
-{
-	SListElement* next = element->next;
-	SListElement* prev = element->prev;
-
-	next->prev = prev;
-	prev->next = next;
-
-	return SimpleListAddBefore(element, head);
-}
+SListElement* SimpleListMoveBefore(SListElement* element, SListElement* head);
 
 /**
 *******************************************************************************
@@ -461,20 +409,10 @@ SListElement* SimpleListMoveBefore(SListElement* element, SListElement* head)
 * 
 * 
 ******************************************************************************/
-SListElement* SimpleListMoveAfter(SListElement* element, SListElement* head)
-{
-	SListElement* next = element->next;
-	SListElement* prev = element->prev;
-
-	next->prev = prev;
-	prev->next = next;
-
-	return SimpleListAddAfter(element, head);
-}
+SListElement* SimpleListMoveAfter(SListElement* element, SListElement* head);
 
 #ifdef __cplusplus
 }
 #endif
 
-
-#endif /* _SIMPLELIST_H */
+#endif /* SIMPLELIST_H */

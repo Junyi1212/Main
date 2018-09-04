@@ -15,6 +15,15 @@
 #include <pthread.h>
 #include <unwind.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void ExceptionInit(void);
 int ExceptionStart(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

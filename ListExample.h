@@ -5,7 +5,12 @@
 #include <pthread.h>
 #include <time.h>
 #include <sys/time.h> 
+#include <string.h>
 #include "SimpleList.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define FILENAME_MAX_LENGTH 64
 typedef enum EFilePriority
@@ -31,4 +36,9 @@ typedef struct SFileListElement
 } SFileListElement;
 
 void ListTest1(void);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

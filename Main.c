@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 //=====================Case9:List===================//
+#include "SimpleList.h"
 #include "ListExample.h"
 //=====================Case8:Affinity===================//
 #include "Affinity.h"
@@ -15,7 +16,7 @@
 #include "SyncAdd.h"
 //=====================Case3:C++=======================//
 #include "CPlusPlus.h"
-
+#include "CPlusPlusNew.h"
 //=====================Case2:strtok/strtok_r=================//
 //Reference: https://blog.csdn.net/buaa_shang/article/details/8189984 
 void strtok_test()
@@ -97,6 +98,7 @@ void printHelp(void)
 	printf("    -6    Case6:The example of exception process.\r\n");
 	printf("    -7    Case7:The example of signal timer.\r\n");
 	printf("    -8    Case8:The example of cpu affinity.\r\n");
+	printf("    -9    Case9:The example of sorted doubly linked list .\r\n");
 	printf("\r\n");
 }
 
@@ -143,6 +145,18 @@ int main(int argc, char **argv)
 				str3.StringPrint();
 				str4.StringPrint();
 				str5.StringPrint();
+
+				CPP_NewTest1_1();
+				CPP_NewTest3_1();
+				CPP_NewTest3_2();
+				CPP_NewTest3_3();
+				CPP_NewTest4_1();
+				CPP_NewTest4_2();
+				CPP_NewTest4_3();
+				CPP_NewTest5_1();
+				CPP_NewTest5_2();
+				CPP_NewTest5_3();
+				CPP_NewTest6_1();
 				break;
 			}
 			case '4':
