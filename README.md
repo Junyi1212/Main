@@ -8,3 +8,6 @@
 # Case7:Signal Timer
 # Case8:Affinity
 # Case9:List Operation
+# Case10:Print Dirs and Files
+# Case11:System limits
+# Case12:Dbm

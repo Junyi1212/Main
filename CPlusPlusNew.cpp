@@ -16,7 +16,8 @@ void foo1_1(int i)
 }
 
 int CPP_NewTest1_1(void) 
-{    
+{
+    printf("%s\n", __FUNCTION__);
     if(NULL == (void *)0) 
         printf("NULL == 0\n");    
     else 
@@ -26,6 +27,111 @@ int CPP_NewTest1_1(void)
     foo1_1(nullptr);    
     return 0;
 }
+//1.2 constexpr
+//编译时把表达式直接优化并植入到程序运行，能增加程序的性能
+constexpr int len_foo()
+{
+    return 5;
+}
+
+constexpr int fibonacci(const int n)
+{
+    return n == 1 || n == 2? 1: fibonacci(n-1)+fibonacci(n-2);
+}
+
+#define LEN 10
+int CPP_NewTest1_2(void)
+{
+    printf("%s\n", __FUNCTION__);
+    char arr_1[10];//pass
+    char arr_2[LEN];//pass
+
+    const int len = 10;//在C++11之前len必须是const；在C 代码中非法
+    char arr_3[len];//pass,
+
+    char arr_4[len_foo()];//pass
+
+    std::cout << fibonacci(10) << std::endl;
+    // 1, 1, 2, 3, 5, 8, 13, 21, 34, 55
+    return 0;
+}
+//1.3auto,decltype
+//类型推导
+
+//传统C++
+template <typename R, typename T, typename U>
+R add1(T x, U y)
+{
+    return x+y;
+}
+
+//尾返回类型C++11
+template <typename T, typename U>
+auto add2(T x, U y) -> decltype(x+y)
+{
+    return x+y;
+}
+
+//返回类型推导C++14
+template <typename T, typename U>
+auto add3(T x, U y)
+{
+    return x+y;
+}
+
+int CPP_NewTest1_3(void)
+{
+    printf("%s\n", __FUNCTION__);
+    auto i = 5;
+    int arr[10]= {0};
+    auto auto_arr1 = arr;// 正确，对整个类型进行推导
+    //auto auto_arr2[10] = arr;// 错误,  无法推导数组元素类型
+
+    auto x = 1;
+    auto y = 2;
+    decltype(x+y) z1;
+    //auto z2;// 错误, 无法推导
+
+    std::cout << add1<int, int, int>(1,2) << std::endl;
+    std::cout << add2<int, int>(1,2) << std::endl;
+    std::cout << add3<int, int>(1,2) << std::endl;
+    return 0;
+}
+
+//1.4 for
+//区间迭代
+int CPP_NewTest1_4(void)
+{
+    printf("%s\n", __FUNCTION__);
+    int array[] = {1,2,3,4,5};
+
+    // & 启用了引用, 如果没有则对 arr 中的元素只能读取不能修改
+    for(auto &x : array)
+    {
+        x = 8;
+        std::cout << x << std::endl;
+    }
+    std::cout <<  std::endl;
+    for(auto &x : array)
+    {
+        std::cout << x << std::endl;
+    }
+
+    // 传统 C++ 写法
+    std::vector<int> vec(5, 10);
+    for(std::vector<int>::iterator i = vec.begin(); i != vec.end(); i++)
+    {
+        std::cout << *i << std::endl;
+    }
+    std::cout <<  std::endl;
+    // C++11 写法
+    for(auto &i : vec)
+    {
+         std::cout << i << std::endl;
+    }
+    return 0;
+}
+
 
 //--------------------------
 //2.运行时强化
@@ -45,6 +151,7 @@ void foo3_1(int *p, int len)
 
 int CPP_NewTest3_1(void) 
 {
+    printf("%s\n", __FUNCTION__);
     std::array<int, 5> arr = {2,4,3,1,5};
 
     //C风格接口转换
@@ -63,6 +170,7 @@ int CPP_NewTest3_1(void)
 //3.2 std::unordered_map
 int CPP_NewTest3_2(void) 
 {
+    printf("%s\n", __FUNCTION__);
     // 两组结构按同样的顺序初始化
     std::unordered_map<int, std::string> u = {
         {1, "1"},
@@ -102,6 +210,7 @@ auto get_student(int id)
 
 int CPP_NewTest3_3(void)
 {
+    printf("%s\n", __FUNCTION__);
     auto student = get_student(0);
     std::cout << "ID: 0, "
     << "GPA: " << std::get<0>(student) << ", "
@@ -137,6 +246,7 @@ void foo4_1(std::shared_ptr<int> i)
 
 int CPP_NewTest4_1(void)
 {
+    printf("%s\n", __FUNCTION__);
     // auto pointer = new int(10); // 非法, 不允许直接赋值
     // 构造了一个 std::shared_ptr
     auto pointer = std::make_shared<int>(10);
@@ -184,6 +294,7 @@ void f(const Foo &)
 
 int CPP_NewTest4_2(void)
 {
+    printf("%s\n", __FUNCTION__);
     std::unique_ptr<Foo> p1(std::make_unique<Foo>());
 
     // p1 不空, 输出
@@ -245,6 +356,7 @@ public:
 
 int CPP_NewTest4_3(void)
 {
+    printf("%s\n", __FUNCTION__);
     std::shared_ptr<A> a = std::make_shared<A>();
     std::shared_ptr<B> b = std::make_shared<B>();
 
@@ -267,6 +379,7 @@ void block_area(void)
 
 int CPP_NewTest5_1(void)
 {
+    printf("%s\n", __FUNCTION__);
     std::thread thd1(block_area);
 
     thd1.join();
@@ -277,6 +390,7 @@ int CPP_NewTest5_1(void)
 // 生产者消费者模型
 int CPP_NewTest5_2(void)
 {
+    printf("%s\n", __FUNCTION__);
     // 生产者数量
     std::queue<int> produced_nums;
     // 互斥锁
@@ -342,6 +456,7 @@ void task_future() {
 
 int CPP_NewTest5_3(void) 
 {
+    printf("%s\n", __FUNCTION__);
     std::thread t(foo5_3);
     
     task_future();
@@ -354,6 +469,7 @@ int CPP_NewTest5_3(void)
 //6.1原始字符串字面量
 int CPP_NewTest6_1(void)
 {
+    printf("%s\n", __FUNCTION__);
     std::string str = R"(C:\\What\\The\\Fxxk)";
     std::cout << str << std::endl;
     return 0;

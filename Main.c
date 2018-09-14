@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+//=====================Case13:Dbm===================//
+#include "Dbm.h"
+//=====================Case11:Limit===================//
+#include "Limits.h"
+//=====================Case10:Dir===================//
+#include "PrintDir.h"
 //=====================Case9:List===================//
 #include "SimpleList.h"
 #include "ListExample.h"
@@ -62,8 +67,9 @@ void strtok_r_test()
                 printf(">%s<\n", p[j]);
 }
 
-//=====================Case1:Little/Big====================//
-//Check the CPU is Little_endian Or Big_endian
+//=====================Case1:Linux Env====================//
+
+//Case1.1: Little/Big: Check the CPU is Little_endian Or Big_endian
 //union的存放顺序是所有成员都从低地址开始存放
 //option 1
 bool checkCPU(void)
@@ -85,12 +91,69 @@ static union
     unsigned int l;
 } endian_test = {{'l', '?', '?', 'b'}};
 #define MY_ENDIANNESS ((char)(endian_test.l))
+//--------------------------------------------------
+//Case1.2:读取和设置环境变量
+extern char **environ;
+void checkEnv(void)
+{
+    const char* keyVar = "testEnv";
+    const char* setVar = "testEnv=123";
+    char* valueVar = NULL;
+
+    valueVar = getenv(keyVar);
+    if(valueVar)
+    	printf("Key %s = %s\n", keyVar, valueVar);
+    else
+	printf("Key %s has no value!\n", keyVar);
+
+    //该环境变量仅对程序本身有效，不会反映到外部环境中；
+    //因为变量的值不会从子进程(该程序)传播到父进程(Shell)
+    if(putenv((char* )setVar) != 0)
+    {
+    	printf("putenv failed\n");
+	return;
+    }
+
+    valueVar = getenv(keyVar);
+    if(valueVar)
+    	printf("Key %s = %s\n", keyVar, valueVar);
+    else
+	printf("Key %s has no value!\n", keyVar);
+
+    //打印出所有环境变量
+    char **env = environ;
+    while(*env)
+    {
+    	printf("%s\n", *env);
+	env++;
+    }
+}
+//--------------------------------------------------
+//Case1.3:创建临时文件
+void create_tmpfile(void)
+{
+    char tmpname[L_tmpnam];
+    char *filename; 
+    FILE *tmpfp;
+
+    //创建临时文件名，应尽快打开，以减小另外一个程序用同样的名字
+    //filename = tmpnam(tmpname);
+    //printf("Temporary file name is: %s\n", filename);
+
+    //创建并打开文件流，可以避免tmpname的问题
+    tmpfp = tmpfile();
+    if(tmpfp)
+        printf("Opened a temporary file OK\n");
+    else
+	perror("tmpfile");
+}
+
 //==================================================//
 void printHelp(void)
 {
 	printf("\r\n");
 	printf("USAGE\r\n");
-	printf("    -1    Case1:Check the CPU is Little or Big.\r\n");
+	printf("    -1    Case1:Check the Linux Env.\r\n");
 	printf("    -2    Case2:The example of strtok() and strtok_r().\r\n");
 	printf("    -3    Case3:The example of C++ usage.\r\n");
 	printf("    -4    Case4:The correction and efficiency of atomic operation.\r\n");
@@ -99,6 +162,9 @@ void printHelp(void)
 	printf("    -7    Case7:The example of signal timer.\r\n");
 	printf("    -8    Case8:The example of cpu affinity.\r\n");
 	printf("    -9    Case9:The example of sorted doubly linked list .\r\n");
+	printf("    -a    Case10:The example of print all directory and file.\r\n");
+	printf("    -b    Case11:The example of getting and setting system resources.\r\n");
+	printf("    -c    Case12:The example of dbm.\r\n");
 	printf("\r\n");
 }
 
@@ -111,7 +177,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	while ((c = getopt(argc, argv, "123456789a")) != -1)
+	while ((c = getopt(argc, argv, "123456789abc")) != -1)
 	{
 		switch (c)
 		{
@@ -121,6 +187,10 @@ int main(int argc, char **argv)
 				bool isLittle = checkCPU();
 				printf("The CPU is %s\n", isLittle == true? "Little":"Big");
 				printf("The Linux kernel %c\n", MY_ENDIANNESS);
+
+				checkEnv();
+
+				create_tmpfile();
 				break;
 			}
 			case '2':
@@ -147,6 +217,9 @@ int main(int argc, char **argv)
 				str5.StringPrint();
 
 				CPP_NewTest1_1();
+				CPP_NewTest1_2();
+				CPP_NewTest1_3();
+				CPP_NewTest1_4();
 				CPP_NewTest3_1();
 				CPP_NewTest3_2();
 				CPP_NewTest3_3();
@@ -201,7 +274,19 @@ int main(int argc, char **argv)
 			}
 			case 'a':
 			{
+				//Case10
+				PrintDirTest();
 				break;	
+			}
+			case 'b':
+			{
+				//Case11
+				LimitsTest();
+			}
+			case 'c':
+			{
+				//Case12
+				DbmTest();
 			}
 			default:
 			break;

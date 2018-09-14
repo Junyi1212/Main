@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <iostream>
+#include <vector>
 #include <array>
 #include <algorithm>
 #include <memory>
@@ -19,6 +20,9 @@
 #include <condition_variable>
 
 int CPP_NewTest1_1(void);
+int CPP_NewTest1_2(void);
+int CPP_NewTest1_3(void);
+int CPP_NewTest1_4(void);
 int CPP_NewTest3_1(void); 
 int CPP_NewTest3_2(void);
 int CPP_NewTest3_3(void);
