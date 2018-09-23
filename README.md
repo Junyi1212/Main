@@ -11,3 +11,7 @@
 # Case10:Print Dirs and Files
 # Case11:System limits
 # Case12:Dbm
+# Case13:Process
+# Case14:Thread
+# Case15:Pipe
+# Case16:Sem

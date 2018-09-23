@@ -13,7 +13,8 @@ extern "C" {
 
 void TimerTest1(void);
 void TimerTest2(void);
-
+void SignalTest1(void);
+void SignalTest2(void);
 #ifdef __cplusplus
 }
 #endif

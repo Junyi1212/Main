@@ -1,5 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+//=====================Case17:Sem===================//
+#include "Sem.h"
+//=====================Case16:Pipe===================//
+#include "Pipe.h"
+//=====================Case15:Thread===================//
+#include "Thread.h"
+//=====================Case14:Process===================//
+#include "Process.h"
 //=====================Case13:Dbm===================//
 #include "Dbm.h"
 //=====================Case11:Limit===================//
@@ -165,6 +174,12 @@ void printHelp(void)
 	printf("    -a    Case10:The example of print all directory and file.\r\n");
 	printf("    -b    Case11:The example of getting and setting system resources.\r\n");
 	printf("    -c    Case12:The example of dbm.\r\n");
+	printf("    -d    Case13:The example of Process.\r\n");
+	printf("    -e    Case14:The example of Thread.\r\n");
+	printf("    -f     Case15:The example of Pipe.\r\n");
+	printf("    -g    Case16:The example of Sem.\r\n");
+	printf("    	1    The 1st program.\r\n");
+	printf("    	2    The 2st program.\r\n");
 	printf("\r\n");
 }
 
@@ -177,7 +192,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	while ((c = getopt(argc, argv, "123456789abc")) != -1)
+	while ((c = getopt(argc, argv, "123456789abcdefg:")) != -1)
 	{
 		switch (c)
 		{
@@ -257,6 +272,8 @@ int main(int argc, char **argv)
 				//Case7
 				TimerTest1();
 				TimerTest2();
+				//SignalTest1();
+				SignalTest2();
 				while(1);
 				break;
 			}
@@ -287,6 +304,38 @@ int main(int argc, char **argv)
 			{
 				//Case12
 				DbmTest();
+			}
+			case 'd':
+			{
+				//Case13
+				ProcessCase1();
+				//ProcessCase2();
+				ProcessCase3();
+			}
+			case 'e':
+			{
+				//Case14
+				ThreadCase1();
+				ThreadCase2();
+				ThreadCase3();
+				ThreadCase4();
+				ThreadCase5();
+			}
+			case 'f':
+			{
+				//Case15
+				PipeCase1();
+				PipeCase2();
+				PipeCase3();
+				PipeCase4();
+				PipeCase5();
+				PipeCase6();
+				PipeCase7();
+			}
+			case 'g':
+			{
+				//Case16
+				SemCase(atoi(optarg));
 			}
 			default:
 			break;
