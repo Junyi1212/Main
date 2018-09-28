@@ -17,5 +17,7 @@ public:
 private:
     char *m_data;//±£´æ×Ö·û´®
 };
+
+
 #endif
 

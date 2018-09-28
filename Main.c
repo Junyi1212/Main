@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//=====================Case17:Sem===================//
+//=====================Case19:Msg消息队列===================//
+#include "Msg.h"
+//=====================Case18:Shm共享内存===================//
+#include "Shm.h"
+//=====================Case17:Sem信号量===================//
 #include "Sem.h"
-//=====================Case16:Pipe===================//
+//=====================Case16:Pipe管道===================//
 #include "Pipe.h"
 //=====================Case15:Thread===================//
 #include "Thread.h"
@@ -180,6 +184,12 @@ void printHelp(void)
 	printf("    -g    Case16:The example of Sem.\r\n");
 	printf("    	1    The 1st program.\r\n");
 	printf("    	2    The 2st program.\r\n");
+	printf("    -h    Case17:The example of Shm.\r\n");
+	printf("    	1    The consumer program.\r\n");
+	printf("    	2    The producer program.\r\n");
+	printf("    -i    Case18:The example of Msg.\r\n");
+	printf("    	1    The receiver program.\r\n");
+	printf("    	2    The sender program.\r\n");
 	printf("\r\n");
 }
 
@@ -192,7 +202,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	while ((c = getopt(argc, argv, "123456789abcdefg:")) != -1)
+	while ((c = getopt(argc, argv, "123456789abcdefg:h:i:")) != -1)
 	{
 		switch (c)
 		{
@@ -336,6 +346,16 @@ int main(int argc, char **argv)
 			{
 				//Case16
 				SemCase(atoi(optarg));
+			}
+			case 'h':
+			{
+				//Case17
+				ShmCase(atoi(optarg));
+			}
+			case 'i':
+			{
+				//Case18
+				MsgCase(atoi(optarg));
 			}
 			default:
 			break;

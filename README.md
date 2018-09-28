@@ -15,3 +15,5 @@
 # Case14:Thread
 # Case15:Pipe
 # Case16:Sem
+# Case17:Shm
+# Case18:Msg

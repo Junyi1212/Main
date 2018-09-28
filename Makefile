@@ -1,7 +1,7 @@
 CC = g++
 INCLUDE = /usr/include/gdbm
 OBJECTS = Main.o SyncAdd.o ShareLib.o Exception.o Signal.o CPlusPlus.o CPlusPlusNew.o \
-			Affinity.o SimpleList.o ListExample.o PrintDir.o Limits.o Process.o Thread.o Pipe.o Sem.o
+			Affinity.o SimpleList.o ListExample.o PrintDir.o Limits.o Process.o Thread.o Pipe.o Sem.o Shm.o Msg.o
 CFLAGS = -g -O0 -Werror -std=c++14
 LDFLAGS = -lpthread -rdynamic -ldl -lrt -lm -lgdbm
 
