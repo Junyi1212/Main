@@ -2,7 +2,7 @@
 #define SHARELIB_H
 #include <stdio.h>
 #include <dlfcn.h>
-
+#include <string.h>
 #ifdef __cplusplus
 extern "C" {
 #endif

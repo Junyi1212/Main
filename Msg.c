@@ -1,7 +1,7 @@
 #include "Msg.h"
 
 //===========================================================
-//shmget,shmat,shmdt, shmctl
+//msgget,msgrcv,msgsnd, msgctl
 //index==1: receiver
 //index==2: sender
 

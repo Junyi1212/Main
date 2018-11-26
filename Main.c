@@ -309,11 +309,13 @@ int main(int argc, char **argv)
 			{
 				//Case11
 				LimitsTest();
+				break;
 			}
 			case 'c':
 			{
 				//Case12
 				DbmTest();
+				break;
 			}
 			case 'd':
 			{
@@ -321,6 +323,7 @@ int main(int argc, char **argv)
 				ProcessCase1();
 				//ProcessCase2();
 				ProcessCase3();
+				break;
 			}
 			case 'e':
 			{
@@ -330,6 +333,7 @@ int main(int argc, char **argv)
 				ThreadCase3();
 				ThreadCase4();
 				ThreadCase5();
+				break;
 			}
 			case 'f':
 			{
@@ -341,21 +345,25 @@ int main(int argc, char **argv)
 				PipeCase5();
 				PipeCase6();
 				PipeCase7();
+				break;
 			}
 			case 'g':
 			{
 				//Case16
 				SemCase(atoi(optarg));
+				break;
 			}
 			case 'h':
 			{
 				//Case17
 				ShmCase(atoi(optarg));
+				break;
 			}
 			case 'i':
 			{
 				//Case18
 				MsgCase(atoi(optarg));
+				break;
 			}
 			default:
 			break;

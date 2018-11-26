@@ -2,10 +2,8 @@
  
 int ShareLib(void) 
 {
-	const char *dlib_path = "/var/fpwork/lyun/test/lib/libCal.so";
-	//貌似只能是绝对路径，相对路径找不到文件
-
-	void *handle = dlopen(dlib_path, RTLD_GLOBAL | RTLD_NOW);
+	const char *relPath = "./lib/libCal.so";
+	void *handle = dlopen(relPath, RTLD_GLOBAL | RTLD_NOW);
 	if (handle == NULL) 
 	{
 		fprintf(stderr, "%s\n", dlerror());

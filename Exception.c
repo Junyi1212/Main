@@ -496,8 +496,7 @@ void ExceptionInit(void)
 
 int ExceptionStart(void)
 {
-	const char *dlib_path = "/var/fpwork/lyun/test/lib/libCal.so";
-	//貌似只能是绝对路径，相对路径找不到文件
+	const char *dlib_path = "./lib/libCal.so";
 
 	void *handle = dlopen(dlib_path, RTLD_GLOBAL | RTLD_NOW);
 	if (handle == NULL) 
