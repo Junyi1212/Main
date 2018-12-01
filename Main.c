@@ -241,6 +241,8 @@ int main(int argc, char **argv)
 				str4.StringPrint();
 				str5.StringPrint();
 
+				CPPTest3();
+
 				CPP_NewTest1_1();
 				CPP_NewTest1_2();
 				CPP_NewTest1_3();

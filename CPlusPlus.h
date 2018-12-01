@@ -18,6 +18,7 @@ private:
     char *m_data;//±£´æ×Ö·û´®
 };
 
+void CPPTest3(void);
 
 #endif
 
