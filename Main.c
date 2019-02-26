@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//=====================Case21:Atomic库===================//
+#include "Atomic.h"
+//=====================Case20:Boost库===================//
+#include "BoostThread.h"
+#include "BoostAsio.h"
+#include "BoostSignal.h"
 //=====================Case19:Msg消息队列===================//
 #include "Msg.h"
 //=====================Case18:Shm共享内存===================//
@@ -190,6 +196,8 @@ void printHelp(void)
 	printf("    -i    Case18:The example of Msg.\r\n");
 	printf("    	1    The receiver program.\r\n");
 	printf("    	2    The sender program.\r\n");
+	printf("    -j    Case19:The example of Boost.\r\n");
+	printf("    -k   Case20:The example of Atomic.\r\n");
 	printf("\r\n");
 }
 
@@ -202,7 +210,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	while ((c = getopt(argc, argv, "123456789abcdefg:h:i:")) != -1)
+	while ((c = getopt(argc, argv, "123456789abcdefg:h:i:jk")) != -1)
 	{
 		switch (c)
 		{
@@ -365,6 +373,27 @@ int main(int argc, char **argv)
 			{
 				//Case18
 				MsgCase(atoi(optarg));
+				break;
+			}
+			case 'j':
+			{
+				//Case19
+				BoostThreadCase1();
+				BoostAsioCase1();
+				BoostAsioCase2();
+				BoostSignalCase1();
+				break;
+			}
+			case 'k':
+			{
+				//Case20
+				AtomicCase1();
+				AtomicCase2();
+				AtomicCase3();
+				AtomicCase4();
+				AtomicCase5();
+				AtomicCase6();
+				AtomicCase7();
 				break;
 			}
 			default:

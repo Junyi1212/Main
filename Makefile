@@ -1,9 +1,30 @@
 CC = g++
 INCLUDE = /usr/include/gdbm
-OBJECTS = Main.o SyncAdd.o ShareLib.o Exception.o Signal.o CPlusPlus.o CPlusPlusNew.o \
-			Affinity.o SimpleList.o ListExample.o PrintDir.o Limits.o Process.o Thread.o Pipe.o Sem.o Shm.o Msg.o
+OBJECTS = Main.o
+OBJECTS += SyncAdd.o
+OBJECTS += ShareLib.o
+OBJECTS += Exception.o
+OBJECTS += Signal.o
+OBJECTS += CPlusPlus.o
+OBJECTS += CPlusPlusNew.o
+OBJECTS += Affinity.o
+OBJECTS += SimpleList.o
+OBJECTS += ListExample.o
+OBJECTS += PrintDir.o
+OBJECTS += Limits.o
+OBJECTS += Process.o
+OBJECTS += Thread.o
+OBJECTS += Pipe.o
+OBJECTS += Sem.o
+OBJECTS += Shm.o
+OBJECTS += Msg.o
+OBJECTS += Atomic.o
+OBJECTS += BoostThread.o
+OBJECTS += BoostAsio.o
+OBJECTS += BoostSignal.o
+
 CFLAGS = -g -O0 -Werror -std=c++14
-LDFLAGS = -lpthread -rdynamic -ldl -lrt -lm -lgdbm
+LDFLAGS = -lpthread -rdynamic -ldl -lrt -lm -lgdbm -lboost_system
 
 all:MyTest MyArgOpt PipeChild FifoChild
 
